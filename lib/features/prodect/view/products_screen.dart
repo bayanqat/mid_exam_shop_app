@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../../../utils/routes/routes.dart';
 import '../../../utils/widgets/custom_app_bar.dart';
-
-import '../../productDetails/view/product_details_screen.dart';
 import '../dummyData/dummy_products.dart';
 import '../model/prodect.dart';
 import '../widgets/product_grid_item.dart';
@@ -20,11 +18,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
   bool isGridView = true;
 
   void openProduct(Product product) {
-    Navigator.pushNamed(
-      context,
-      AppRoutes.productDetails,
-      arguments: product,
-    );
+    Navigator.pushNamed(context, AppRoutes.productDetails, arguments: product);
   }
 
   @override
