@@ -14,19 +14,23 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController emailController = TextEditingController();
-
   final TextEditingController passwordController = TextEditingController();
 
-  bool isPasswordVisible = false;
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
 
   void login() {
     if (emailController.text.isEmpty || passwordController.text.isEmpty) {
       ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text('Please fill in all fields')));
-    } else if (!AppRegex.email.hasMatch(emailController.text) ||
-        !AppRegex.password.hasMatch(passwordController.text)) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text('Invalid email or password')));
+    } else if (!AppRegex.email.hasMatch(emailController.text)) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Invalid email')));
+    } else if (!AppRegex.password.hasMatch(passwordController.text)) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Invalid password')));
     } else {
       Navigator.pushReplacementNamed(context, AppRoutes.products);
     }
@@ -42,7 +46,6 @@ class _LoginScreenState extends State<LoginScreen> {
             children: [
               const SizedBox(height: 70),
 
-              // Shop Logo
               Image.asset("assets/icons/shop_bag.png", width: 150, height: 150),
 
               const SizedBox(height: 20),
@@ -65,7 +68,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
               const SizedBox(height: 35),
 
-              // Email
               CustomTextField(
                 controller: emailController,
                 hintText: 'Email',
@@ -85,20 +87,11 @@ class _LoginScreenState extends State<LoginScreen> {
 
               const SizedBox(height: 16),
 
-              // Password
               CustomTextField(
                 controller: passwordController,
                 hintText: 'Password',
                 icon: Icons.lock_outline,
-                obscureText: !isPasswordVisible,
-                suffixIcon: IconButton(
-                  onPressed: () {
-                    setState(() {
-                      isPasswordVisible = !isPasswordVisible;
-                    });
-                  },
-                  icon: Icon(isPasswordVisible ? Icons.visibility : Icons.visibility_off),
-                ),
+                obscureText: true,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter your password';
@@ -114,7 +107,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
               const SizedBox(height: 12),
 
-              // Forgot Password
               Align(
                 alignment: Alignment.centerRight,
                 child: InkWell(
@@ -127,17 +119,14 @@ class _LoginScreenState extends State<LoginScreen> {
 
               const SizedBox(height: 15),
 
-              // Login Button
               CustomButton(text: 'Login', onPressed: login),
 
               const SizedBox(height: 25),
 
-              // Sign Up
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text("Don't have an account?"),
-
                   TextButton(
                     onPressed: () {},
                     child: const Text('Sign Up', style: TextStyle(color: Color(0xFF0365E8))),

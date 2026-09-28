@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
+import '../../../utils/routes/routes.dart';
 import '../../../utils/widgets/custom_app_bar.dart';
-import '../../../utils/widgets/product_grid_item.dart';
-import '../../../utils/widgets/product_list_item.dart';
+
+import '../../productDetails/view/product_details_screen.dart';
 import '../dummyData/dummy_products.dart';
 import '../model/prodect.dart';
-import 'product_details_screen.dart';
+import '../widgets/product_grid_item.dart';
+import '../widgets/product_list_item.dart';
 
 class ProductsScreen extends StatefulWidget {
   const ProductsScreen({super.key});
@@ -18,9 +20,10 @@ class _ProductsScreenState extends State<ProductsScreen> {
   bool isGridView = true;
 
   void openProduct(Product product) {
-    Navigator.push(
+    Navigator.pushNamed(
       context,
-      MaterialPageRoute(builder: (context) => ProductDetailsScreen(product: product)),
+      AppRoutes.productDetails,
+      arguments: product,
     );
   }
 
